@@ -1,0 +1,48 @@
+{{/* Canonical */}}
+<link rel="canonical" href="{{ .Permalink }}">
+
+{{/* Open Graph */}}
+<meta property="og:locale" content="{{ .Site.LanguageCode }}">
+<meta property="og:title" content="{{ .Title }}">
+<meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:site_name" content="{{ .Site.Title }}">
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+{{/* Resolve og:image: page bundle → global resource → static/URL → site default */}}
+{{ $ogImage := "" }}
+{{ with .Params.image }}
+  {{ with $.Resources.GetMatch . }}
+    {{ $ogImage = .Permalink }}
+  {{ else }}
+    {{ with resources.Get . }}
+      {{ $ogImage = .Permalink }}
+    {{ else }}
+      {{ $ogImage = . | absURL }}
+    {{ end }}
+  {{ end }}
+{{ else }}
+  {{ with $.Site.Params.ogImage }}
+    {{ $ogImage = . | absURL }}
+  {{ end }}
+{{ end }}
+{{ with $ogImage }}
+<meta property="og:image" content="{{ . }}">
+{{ end }}
+
+{{/* Twitter Card */}}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ .Title }}">
+<meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+{{ with .Site.Params.social.twitter }}
+<meta name="twitter:site" content="@{{ . }}">
+{{ end }}
+
+{{/* JSON-LD */}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "{{ .Site.Title }}",
+  "url": "{{ .Site.BaseURL }}"
+}
+</script>

@@ -1,0 +1,13 @@
+{{ define "main" }}
+<section class="container mx-auto max-w-3xl px-4 py-12">
+    <h1 class="text-4xl font-bold mb-8">{{ .Title }}</h1>
+    {{ range .Pages }}
+    <article class="mb-6">
+        <h2 class="text-2xl font-semibold">
+            <a href="{{ .Permalink }}" class="hover:underline">{{ .Title }}</a>
+        </h2>
+        {{ with .Description }}<p class="text-gray-600">{{ . }}</p>{{ end }}
+    </article>
+    {{ end }}
+</section>
+{{ end }}

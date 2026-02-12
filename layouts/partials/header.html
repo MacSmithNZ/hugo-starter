@@ -1,0 +1,29 @@
+<header class="border-b">
+    <nav class="container mx-auto flex items-center justify-between px-4 py-4">
+        <a href="/" class="text-xl font-bold">{{ .Site.Title }}</a>
+        {{/* Mobile toggle */}}
+        <button id="nav-toggle" class="md:hidden" aria-label="Toggle navigation">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
+        {{/* Desktop nav */}}
+        <ul id="nav-menu" class="hidden md:flex gap-6">
+            {{ range .Site.Menus.main }}
+            <li><a href="{{ .URL }}" class="hover:underline">{{ .Name }}</a></li>
+            {{ end }}
+        </ul>
+    </nav>
+    {{/* Mobile menu */}}
+    <ul id="nav-mobile" class="hidden flex-col gap-2 px-4 pb-4 md:hidden">
+        {{ range .Site.Menus.main }}
+        <li><a href="{{ .URL }}" class="block hover:underline">{{ .Name }}</a></li>
+        {{ end }}
+    </ul>
+</header>
+<script>
+    document.getElementById('nav-toggle').addEventListener('click', () => {
+        document.getElementById('nav-mobile').classList.toggle('hidden');
+        document.getElementById('nav-mobile').classList.toggle('flex');
+    });
+</script>
